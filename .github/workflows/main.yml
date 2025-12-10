@@ -28,7 +28,12 @@ jobs:
     - name: Run Postman collection with Newman (Solución Reforzada - Raíz)
       # No se necesita working-directory si está en la raíz, pero el checkout@v4 es clave.
       run: newman run Chuck_Norris_1.postman_collection.json
-      # Si tu archivo está en una carpeta, usa la ruta correcta:
-      # run: newman run postman/Chuck_Norris_1.postman_collection.json
+      
+    - name: List files for debugging
+      run: ls -R 
+      # Esto imprimirá la estructura de carpetas completa en el log de la acción.
+      # Busca aquí 'Chuck_Norris_1.postman_collection.json' para ver la ruta exacta.
 
+    - name: Set up Node.js
+      # ... (continúa con la instalación de Newman y la ejecución)
    
