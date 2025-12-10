@@ -1,0 +1,48 @@
+name: Run Postman Collection Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Permite ejecutar manualmente la acción desde la interfaz de GitHub
+
+jobs:
+  run-postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4 # Usa la versión más reciente de actions/checkout
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4 # Usa la versión más reciente de actions/setup-node
+      with:
+        node-version: '20' # Puedes especificar la versión de Node.js que prefieras
+
+    - name: Install Newman
+      run: npm install -g newman
+
+    - name: Run Postman collection with Newman
+      run: newman run Chuck_Norris_1.postman_collection.json
+      # Si tu archivo está en una carpeta, usa la ruta correcta:
+      # run: newman run postman/Chuck_Norris_1.postman_collection.json
+
+    # Opcional: Generar un informe HTML extra
+    - name: Install Newman HTML reporter (optional)
+      run: npm install -g newman-reporter-htmlextra
+    
+    - name: Run collection and generate report (optional)
+      if: always() # Ejecuta este paso incluso si las pruebas fallan para generar el informe
+      run: newman run Chuck_Norris_1.postman_collection.json -r cli,htmlextra --reporter-htmlextra-export test_report.html
+
+    - name: Upload test report artifact (optional)
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: newman-report
+        path: test_report.html
+
+        run: npm test  # Ejecuta los tests
