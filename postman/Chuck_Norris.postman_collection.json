@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "Random Joke",
+			"name": "food Joke",
 			"request": {
 				"method": "GET",
 				"header": []
