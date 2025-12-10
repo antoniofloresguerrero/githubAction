@@ -38,6 +38,6 @@ jobs:
 
     - name: Run Postman collection with Newman
       # Se asume que 'ls -la' del paso anterior confirmó que el archivo está en la raíz
-      run: newman run postman/Chuck_Norris_1.postman_collection.json
+      run: newman run postman/Chuck_Norris.postman_collection.json
 
    
