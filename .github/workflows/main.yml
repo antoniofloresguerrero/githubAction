@@ -16,6 +16,16 @@ jobs:
     steps:
     - name: Checkout repository code
       uses: actions/checkout@v4 # Usa la versión más reciente de actions/checkout
+      with:
+        fetch-depth: 0 # Asegura que se descarguen todos los archivos por si acaso
+
+    - name: List files for debugging (DEBE mostrar tu archivo aqui)
+      # Este paso se ejecuta ANTES de Newman para confirmar la ruta.
+      run: |
+        echo "Directorio actual:"
+        pwd
+        echo "Archivos encontrados:"
+        ls -la Chuck_Norris_1.postman_collection.json || echo "Archivo no encontrado en la raíz."
 
     - name: Set up Node.js
       uses: actions/setup-node@v4 # Usa la versión más reciente de actions/setup-node
@@ -23,17 +33,11 @@ jobs:
         node-version: '20' # Puedes especificar la versión de Node.js que prefieras
 
     - name: Install Newman
+      # Instalar Newman globalmente
       run: npm install -g newman
 
-    - name: Run Postman collection with Newman (Solución Reforzada - Raíz)
-      # No se necesita working-directory si está en la raíz, pero el checkout@v4 es clave.
+    - name: Run Postman collection with Newman
+      # Se asume que 'ls -la' del paso anterior confirmó que el archivo está en la raíz
       run: newman run Chuck_Norris_1.postman_collection.json
-      
-    - name: List files for debugging
-      run: ls -R 
-      # Esto imprimirá la estructura de carpetas completa en el log de la acción.
-      # Busca aquí 'Chuck_Norris_1.postman_collection.json' para ver la ruta exacta.
 
-    - name: Set up Node.js
-      # ... (continúa con la instalación de Newman y la ejecución)
    
